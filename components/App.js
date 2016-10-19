@@ -33,8 +33,12 @@ export default class App extends Component {
 		const { title, status } = this.state;
 		
 		return(
-			<Header title={title}
+			<div>
+				<Header 
+				title={title}
 				status={status}></Header>
+				{this.props.children}
+			</div>
 			);
 	}
 };
