@@ -8,9 +8,14 @@ app.use(express.static('./node_modules/bootstrap/dist'));
 var server = app.listen(3000);
 
 var connections = [];
+var title = 'Untitled Presentation';
 
 var io = require('socket.io')(server);
 io.on('connection', (client) => {
+	client.emit('welcome', {
+		title: title
+	});
+
 	connections.push(client);
 	console.log('Connected: %s socket. Total: %s', client.id, connections.length);
 

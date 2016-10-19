@@ -8,26 +8,33 @@ export default class App extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			status: 'disconnected'
+			status: 'disconnected',
+			title: ''
 		};
 	}
 	componentWillMount() {
 		this.socket = io('http://localhost:3000');
+
 		this.socket.on('connect', () => {
 			this.setState({ status: 'connected' });
 			console.log('Connected: ', this.socket.id);
 		});
 
-		// socket.on('event', function(data){});
+		this.socket.on('welcome', (serverState) => {
+			this.setState({ title: serverState.title });
+		});
+
 		this.socket.on('disconnect', () => {
 			console.log('Disconnected');
 			this.setState({ status: 'disconnected' });
 		});
 	}
 	render() {
+		const { title, status } = this.state;
+		
 		return(
-			<Header title="Hello world"
-				status={this.state.status}></Header>
+			<Header title={title}
+				status={status}></Header>
 			);
 	}
 };
