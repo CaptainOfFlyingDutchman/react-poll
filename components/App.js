@@ -31,13 +31,14 @@ export default class App extends Component {
 	}
 	render() {
 		const { title, status } = this.state;
-		
+
 		return(
 			<div>
-				<Header 
+				<Header
 				title={title}
 				status={status}></Header>
-				{this.props.children}
+
+				{React.cloneElement(this.props.children, {...this.state})}
 			</div>
 			);
 	}
