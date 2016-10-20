@@ -8,12 +8,16 @@ import Audience from './components/Audience';
 import Board from './components/Board';
 import Speaker from './components/Speaker';
 
+import NotFound from './components/NotFound';
+
 const routes = (
 	<Router history={browserHistory}>
 		<Route path="/" component={App}>
 			<IndexRoute component={Audience} />
 			<Route path="board" component={Board} />
 			<Route path="speaker" component={Speaker} />
+
+			<Route path="*" component={NotFound} />
 		</Route>
 	</Router>
 	);
