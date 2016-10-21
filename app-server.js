@@ -1,7 +1,20 @@
 var express = require('express');
 var path = require('path');
 
+var webpack = require('webpack');
+var webpackConfig = require('./webpack.config.js');
+var webpackDevMiddleware = require('webpack-dev-middleware');
+var webpackHotMiddleware = require('webpack-hot-middleware');
+
 var app = express();
+
+// Hot reloading
+var compiler = webpack(webpackConfig);
+app.use(webpackDevMiddleware(compiler, {
+	noInfo: true, publicPath: webpackConfig.output.publicPath
+}));
+app.use(webpackHotMiddleware(compiler));
+// End hot reloading
 
 app.use(express.static('./public'));
 app.use(express.static('./node_modules/bootstrap/dist'));
@@ -25,7 +38,7 @@ io.on('connection', (client) => {
 	console.log('Connected: %s socket. Total: %s', client.id, connections.length);
 
 	client.on('event', function(data) {});
-	
+
 	client.on('disconnect', () => {
 		connections.splice(connections.indexOf(client), 1);
 		client.disconnect();

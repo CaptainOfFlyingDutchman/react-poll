@@ -1,9 +1,22 @@
+var webpack = require('webpack');
+var path = require('path');
+
 module.exports = {
 	devtool: "#source-map",
-	entry: './app-client.js',
+	entry: [
+		'webpack-hot-middleware/client',
+		'./app-client.js'
+	],
 	output: {
-		filename: 'public/bundle.js'
+		path: path.resolve('public'),
+		filename: 'bundle.js',
+		publicPath: '/'
 	},
+	plugins: [
+		new webpack.HotModuleReplacementPlugin(),
+		new webpack.NoErrorsPlugin(),
+		new webpack.optimize.OccurrenceOrderPlugin()
+	],
 	module: {
 		loaders: [
 			{
