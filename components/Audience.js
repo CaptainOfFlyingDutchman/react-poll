@@ -1,9 +1,13 @@
 import React, { Component } from 'react';
 
+import Display from './parts/Display';
+
 export default class Audience extends Component {
 	render() {
 		return (
-			<h1>Audience</h1>
+			<Display if={this.props.status === 'connected'}>
+				<h1>Join the presentation</h1>
+			</Display>
 			);
 	}
 };
