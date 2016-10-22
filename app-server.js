@@ -6,6 +6,9 @@ var webpackConfig = require('./webpack.config.js');
 var webpackDevMiddleware = require('webpack-dev-middleware');
 var webpackHotMiddleware = require('webpack-hot-middleware');
 
+var _collection = require('lodash/collection'); // find
+var _util = require('lodash/util'); // matches
+
 var app = express();
 
 // Hot reloading
@@ -52,6 +55,13 @@ io.on('connection', (client) => {
 	});
 
 	client.on('disconnect', () => {
+		var memberDisconnected = _collection.find(audience, _util.matches({ id: client.id }));
+		if (memberDisconnected) {
+			audience.splice(audience.indexOf(memberDisconnected), 1);
+			io.emit('audience', audience);
+			console.log('Left: %s (%s audience members)', memberDisconnected.name, audience.length);
+		}
+
 		connections.splice(connections.indexOf(client), 1);
 		client.disconnect();
 		console.log('Disconnected: %s sockets remaining.', connections.length);
