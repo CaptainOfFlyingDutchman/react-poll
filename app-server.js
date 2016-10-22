@@ -37,7 +37,9 @@ io.on('connection', (client) => {
 	connections.push(client);
 	console.log('Connected: %s socket. Total: %s', client.id, connections.length);
 
-	client.on('event', function(data) {});
+	client.on('join', (payload) => {
+		console.log('Audience joined: %s', payload.name);
+	});
 
 	client.on('disconnect', () => {
 		connections.splice(connections.indexOf(client), 1);

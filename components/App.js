@@ -11,7 +11,9 @@ export default class App extends Component {
 			status: 'disconnected',
 			title: ''
 		};
+		this.emit = this.emit.bind(this);
 	}
+
 	componentWillMount() {
 		this.socket = io('http://localhost:3000');
 
@@ -29,6 +31,11 @@ export default class App extends Component {
 			this.setState({ status: 'disconnected' });
 		});
 	}
+
+	emit(event, payload) {
+		this.socket.emit(event, payload);
+	}
+
 	render() {
 		const { title, status } = this.state;
 
@@ -38,7 +45,7 @@ export default class App extends Component {
 				title={title}
 				status={status}></Header>
 
-				{React.cloneElement(this.props.children, {...this.state})}
+				{React.cloneElement(this.props.children, {...this.state, emit: this.emit})}
 			</div>
 			);
 	}

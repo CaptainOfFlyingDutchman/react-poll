@@ -1,6 +1,6 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 
-export default class Join extends Component {
+class Join extends Component {
 	constructor() {
 		super();
 		this.joinHandler = this.joinHandler.bind(this);
@@ -8,7 +8,7 @@ export default class Join extends Component {
 
 	joinHandler() {
 		const fullName = this.fullNameTextBox.value;
-		alert(fullName);
+		this.props.emit('join', {name: fullName	});
 	}
 
 	render() {
@@ -24,3 +24,9 @@ export default class Join extends Component {
 			);
 	}
 };
+
+Join.propTypes = {
+	emit: PropTypes.func.isRequired
+};
+
+export default Join;
