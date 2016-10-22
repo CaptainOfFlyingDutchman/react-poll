@@ -20,6 +20,12 @@ export default class App extends Component {
 		this.socket = io('http://localhost:3000');
 
 		this.socket.on('connect', () => {
+			var existingMember = sessionStorage.member ?
+									JSON.parse(sessionStorage.member) :
+									null;
+			if (existingMember) {
+				this.emit('join', existingMember);
+			}
 			this.setState({ status: 'connected' });
 			console.log('Connected: ', this.socket.id);
 		});
@@ -29,6 +35,7 @@ export default class App extends Component {
 		});
 
 		this.socket.on('joined', (newMember) => {
+			sessionStorage.member = JSON.stringify(newMember);
 			this.setState({ member: newMember });
 		});
 
