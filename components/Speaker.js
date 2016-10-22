@@ -3,6 +3,7 @@ import React, { Component, PropTypes } from 'react';
 import Display from './parts/Display';
 import JoinSpeaker from './parts/JoinSpeaker';
 import Attendance from './parts/Attendance';
+import Questions from './parts/Questions';
 
 class Speaker extends Component {
 	render() {
@@ -10,7 +11,7 @@ class Speaker extends Component {
 			<Display if={this.props.status === 'connected'}>
 				<Display if={this.props.member.name &&
 					this.props.member.type === 'speaker'}>
-					<p>Questions</p>
+					<Questions questions={this.props.questions} />
 					<Attendance audience={this.props.audience} />
 				</Display>
 
@@ -27,6 +28,8 @@ Speaker.propTypes = {
 	status: PropTypes.string,
 	emit: PropTypes.func,
 	member: PropTypes.object,
+	audience: PropTypes.array,
+	questions: PropTypes.array
 };
 
 export default Speaker;

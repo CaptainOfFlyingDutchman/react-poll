@@ -32,6 +32,7 @@ var connections = [];
 var audience = [];
 var title = 'Untitled Presentation';
 var speaker = {};
+var questions = require('./app-questions');
 
 var io = require('socket.io')(server);
 
@@ -39,7 +40,8 @@ io.on('connection', (client) => {
 	client.emit('welcome', {
 		title: title,
 		speaker: speaker,
-		audience: audience
+		audience: audience,
+		questions: questions
 	});
 
 	connections.push(client);

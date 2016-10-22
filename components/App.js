@@ -12,7 +12,8 @@ export default class App extends Component {
 			title: '',
 			member: {}, /* Person using this particular socket */
 			audience: [],
-			speaker: {} /* On every socket it's displayed who is the speaker */
+			speaker: {}, /* On every socket it's displayed who is the speaker */
+			questions: []
 		};
 		this.emit = this.emit.bind(this);
 		this.udpateState = this.udpateState.bind(this);
