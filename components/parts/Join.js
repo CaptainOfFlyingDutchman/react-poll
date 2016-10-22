@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from 'react';
+import { Link } from 'react-router';
 
 class Join extends Component {
 	constructor() {
@@ -20,6 +21,8 @@ class Join extends Component {
 						className="form-control" placeholder="Enter your full name" required />
 				</div>
 				<button className="btn btn-primary">Join</button>
+
+				<Link to="/speaker">Join as speaker</Link>
 			</form>
 			);
 	}

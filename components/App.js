@@ -10,8 +10,9 @@ export default class App extends Component {
 		this.state = {
 			status: 'disconnected',
 			title: '',
-			member: {},
-			audience: []
+			member: {}, /* Person using this particular socket */
+			audience: [],
+			speaker: {} /* On every socket it's displayed who is the speaker */
 		};
 		this.emit = this.emit.bind(this);
 	}

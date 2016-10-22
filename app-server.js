@@ -31,6 +31,7 @@ var server = app.listen(3000);
 var connections = [];
 var audience = [];
 var title = 'Untitled Presentation';
+var speaker = {};
 
 var io = require('socket.io')(server);
 
@@ -45,7 +46,8 @@ io.on('connection', (client) => {
 	client.on('join', (payload) => {
 		const newMember = {
 			id: client.id,
-			name: payload.name
+			name: payload.name,
+			type: 'member'
 		};
 
 		client.emit('joined', newMember);
@@ -53,6 +55,15 @@ io.on('connection', (client) => {
 		io.emit('audience', audience);
 		console.log('Audience joined: %s', payload.name);
 	});
+
+	client.on('start', (payload) => {
+		speaker.name = payload.name;
+		speaker.id = client.id;
+		speaker.type = 'speaker';
+		title = payload.title
+		client.emit('joined', speaker);
+		console.log('Presentation Started: "%s" by %s', title, speaker.name);
+	})
 
 	client.on('disconnect', () => {
 		var memberDisconnected = _collection.find(audience, _util.matches({ id: client.id }));
