@@ -15,6 +15,11 @@ export default class App extends Component {
 			speaker: {} /* On every socket it's displayed who is the speaker */
 		};
 		this.emit = this.emit.bind(this);
+		this.udpateState = this.udpateState.bind(this);
+	}
+
+	udpateState(serverState) {
+		this.setState(serverState);
 	}
 
 	componentWillMount() {
@@ -31,9 +36,9 @@ export default class App extends Component {
 			console.log('Connected: ', this.socket.id);
 		});
 
-		this.socket.on('welcome', (serverState) => {
-			this.setState({ title: serverState.title });
-		});
+		this.socket.on('welcome', this.udpateState);
+
+		this.socket.on('start', this.udpateState);
 
 		this.socket.on('joined', (newMember) => {
 			sessionStorage.member = JSON.stringify(newMember);
@@ -55,13 +60,9 @@ export default class App extends Component {
 	}
 
 	render() {
-		const { title, status } = this.state;
-
 		return(
 			<div>
-				<Header
-				title={title}
-				status={status}></Header>
+				<Header {...this.state}></Header>
 
 				{React.cloneElement(this.props.children, {...this.state, emit: this.emit})}
 			</div>

@@ -37,7 +37,9 @@ var io = require('socket.io')(server);
 
 io.on('connection', (client) => {
 	client.emit('welcome', {
-		title: title
+		title: title,
+		speaker: speaker,
+		audience: audience
 	});
 
 	connections.push(client);
@@ -60,7 +62,8 @@ io.on('connection', (client) => {
 		speaker.name = payload.name;
 		speaker.id = client.id;
 		speaker.type = 'speaker';
-		title = payload.title
+		title = payload.title;
+		io.emit('start', {title: title, speaker: speaker});
 		client.emit('joined', speaker);
 		console.log('Presentation Started: "%s" by %s', title, speaker.name);
 	})
