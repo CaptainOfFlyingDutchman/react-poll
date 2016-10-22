@@ -38,6 +38,11 @@ io.on('connection', (client) => {
 	console.log('Connected: %s socket. Total: %s', client.id, connections.length);
 
 	client.on('join', (payload) => {
+		const newMember = {
+			id: client.id,
+			name: payload.name
+		};
+		client.emit('joined', newMember);
 		console.log('Audience joined: %s', payload.name);
 	});
 

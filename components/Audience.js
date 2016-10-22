@@ -8,8 +8,15 @@ class Audience extends Component {
 		return (
 			<div>
 				<Display if={this.props.status === 'connected'}>
-					<h1>Join the presentation</h1>
-					<Join emit={this.props.emit} />
+					<Display if={this.props.member.name}>
+						<h2>Welcome {this.props.member.name}</h2>
+						<p>Questions will appear here.</p>
+					</Display>
+
+					<Display if={!this.props.member.name}>
+						<h1>Join the presentation</h1>
+						<Join emit={this.props.emit} />
+					</Display>
 				</Display>
 			</div>
 			);
@@ -18,7 +25,8 @@ class Audience extends Component {
 
 Audience.propTypes = {
 	status: PropTypes.string,
-	emit: PropTypes.func
+	emit: PropTypes.func,
+	member: PropTypes.object
 };
 
 export default Audience;
