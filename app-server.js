@@ -26,9 +26,11 @@ app.get('*', (req, res) => {
 var server = app.listen(3000);
 
 var connections = [];
+var audience = [];
 var title = 'Untitled Presentation';
 
 var io = require('socket.io')(server);
+
 io.on('connection', (client) => {
 	client.emit('welcome', {
 		title: title
@@ -42,7 +44,10 @@ io.on('connection', (client) => {
 			id: client.id,
 			name: payload.name
 		};
+
 		client.emit('joined', newMember);
+		audience.push(newMember);
+		io.emit('audience', audience);
 		console.log('Audience joined: %s', payload.name);
 	});
 

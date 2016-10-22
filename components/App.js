@@ -10,7 +10,8 @@ export default class App extends Component {
 		this.state = {
 			status: 'disconnected',
 			title: '',
-			member: {}
+			member: {},
+			audience: []
 		};
 		this.emit = this.emit.bind(this);
 	}
@@ -29,6 +30,10 @@ export default class App extends Component {
 
 		this.socket.on('joined', (newMember) => {
 			this.setState({ member: newMember });
+		});
+
+		this.socket.on('audience', (newAudience) => {
+			this.setState({ audience: newAudience });
 		});
 
 		this.socket.on('disconnect', () => {

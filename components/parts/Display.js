@@ -9,7 +9,10 @@ class Display extends Component {
 };
 
 Display.propTypes = {
-	if: PropTypes.bool.isRequired
+	if: PropTypes.oneOfType([
+			PropTypes.bool.isRequired,
+			PropTypes.string.isRequired
+		])
 };
 
 export default Display;

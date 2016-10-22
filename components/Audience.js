@@ -10,6 +10,7 @@ class Audience extends Component {
 				<Display if={this.props.status === 'connected'}>
 					<Display if={this.props.member.name}>
 						<h2>Welcome {this.props.member.name}</h2>
+						<p>{this.props.audience.length} audience member connnected.</p>
 						<p>Questions will appear here.</p>
 					</Display>
 
@@ -26,7 +27,8 @@ class Audience extends Component {
 Audience.propTypes = {
 	status: PropTypes.string,
 	emit: PropTypes.func,
-	member: PropTypes.object
+	member: PropTypes.object,
+	audience: PropTypes.array
 };
 
 export default Audience;
