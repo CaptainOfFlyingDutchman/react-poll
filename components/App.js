@@ -29,8 +29,10 @@ export default class App extends Component {
 			var existingMember = sessionStorage.member ?
 									JSON.parse(sessionStorage.member) :
 									null;
-			if (existingMember) {
+			if (existingMember && existingMember.type === 'member') {
 				this.emit('join', existingMember);
+			} else if (existingMember && existingMember.type === 'speaker') {
+				this.emit('start', { name: existingMember.name, title: sessionStorage.title });
 			}
 			this.setState({ status: 'connected' });
 			console.log('Connected: ', this.socket.id);
@@ -38,7 +40,12 @@ export default class App extends Component {
 
 		this.socket.on('welcome', this.udpateState);
 
-		this.socket.on('start', this.udpateState);
+		this.socket.on('start', (presentation) => {
+			if (this.state.member.type === 'speaker') {
+				sessionStorage.title = presentation.title;
+			}
+			this.setState(presentation);
+		});
 
 		this.socket.on('joined', (newMember) => {
 			sessionStorage.member = JSON.stringify(newMember);
@@ -49,9 +56,14 @@ export default class App extends Component {
 			this.setState({ audience: newAudience });
 		});
 
+		this.socket.on('end', this.udpateState);
+
 		this.socket.on('disconnect', () => {
-			console.log('Disconnected');
-			this.setState({ status: 'disconnected' });
+			this.setState({
+				status: 'Disconnected',
+				title: 'Disconnected',
+				speaker	: {}
+			});
 		});
 	}
 

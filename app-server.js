@@ -63,8 +63,8 @@ io.on('connection', (client) => {
 		speaker.id = client.id;
 		speaker.type = 'speaker';
 		title = payload.title;
-		io.emit('start', {title: title, speaker: speaker});
 		client.emit('joined', speaker);
+		io.emit('start', {title: title, speaker: speaker});
 		console.log('Presentation Started: "%s" by %s', title, speaker.name);
 	})
 
@@ -74,6 +74,11 @@ io.on('connection', (client) => {
 			audience.splice(audience.indexOf(memberDisconnected), 1);
 			io.emit('audience', audience);
 			console.log('Left: %s (%s audience members)', memberDisconnected.name, audience.length);
+		} else if (client.id === speaker.id) {
+			console.log('%s has left. %s is over.', speaker.name, title);
+			speaker = {};
+			title = 'Untitled Presentation';
+			io.emit('end', { title: title, speaker: speaker });
 		}
 
 		connections.splice(connections.indexOf(client), 1);
