@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react';
 
 import Display from './parts/Display';
 import Join from './parts/Join';
+import Ask from './parts/Ask';
 
 class Audience extends Component {
 	render() {
@@ -16,7 +17,7 @@ class Audience extends Component {
 						</Display>
 
 						<Display if={this.props.currentQuestion}>
-							<h2>{this.props.currentQuestion.q}</h2>
+							<Ask question={this.props.currentQuestion} />
 						</Display>
 					</Display>
 
