@@ -14,7 +14,8 @@ export default class App extends Component {
 			audience: [],
 			speaker: {}, /* On every socket it's displayed who is the speaker */
 			questions: [],
-			currentQuestion: false
+			currentQuestion: false,
+			results: {}
 		};
 		this.emit = this.emit.bind(this);
 		this.udpateState = this.udpateState.bind(this);
@@ -61,6 +62,10 @@ export default class App extends Component {
 		this.socket.on('ask', (question) => {
 			sessionStorage.answer = '';
 			this.setState({ currentQuestion: question });
+		});
+
+		this.socket.on('results', (results) => {
+			this.setState({ results: results });
 		});
 
 		this.socket.on('end', this.udpateState);

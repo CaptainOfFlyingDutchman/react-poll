@@ -49,7 +49,8 @@ io.on('connection', (client) => {
 		speaker: speaker,
 		audience: audience,
 		questions: questions,
-		currentQuestion: currentQuestion
+		currentQuestion: currentQuestion,
+		results: results
 	});
 
 	connections.push(client);
@@ -87,6 +88,7 @@ io.on('connection', (client) => {
 
 	client.on('answer', (payload) => {
 		results[payload.choice]++;
+		io.emit('results', results);
 		console.log('Answer: "%s" - %j', payload.choice, results);
 	});
 
