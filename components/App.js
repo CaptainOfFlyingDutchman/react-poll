@@ -61,7 +61,10 @@ export default class App extends Component {
 
 		this.socket.on('ask', (question) => {
 			sessionStorage.answer = '';
-			this.setState({ currentQuestion: question });
+			this.setState({
+				currentQuestion: question,
+				results: { a: 0, b: 0, c: 0, d: 0 }
+			});
 		});
 
 		this.socket.on('results', (results) => {
