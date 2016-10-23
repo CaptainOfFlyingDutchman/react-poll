@@ -13,7 +13,8 @@ export default class App extends Component {
 			member: {}, /* Person using this particular socket */
 			audience: [],
 			speaker: {}, /* On every socket it's displayed who is the speaker */
-			questions: []
+			questions: [],
+			currentQuestion: false
 		};
 		this.emit = this.emit.bind(this);
 		this.udpateState = this.udpateState.bind(this);
@@ -55,6 +56,10 @@ export default class App extends Component {
 
 		this.socket.on('audience', (newAudience) => {
 			this.setState({ audience: newAudience });
+		});
+
+		this.socket.on('ask', (question) => {
+			this.setState({ currentQuestion: question });
 		});
 
 		this.socket.on('end', this.udpateState);

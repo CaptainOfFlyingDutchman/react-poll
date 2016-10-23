@@ -33,6 +33,7 @@ var audience = [];
 var title = 'Untitled Presentation';
 var speaker = {};
 var questions = require('./app-questions');
+var currentQuestion = false;
 
 var io = require('socket.io')(server);
 
@@ -41,7 +42,8 @@ io.on('connection', (client) => {
 		title: title,
 		speaker: speaker,
 		audience: audience,
-		questions: questions
+		questions: questions,
+		currentQuestion: currentQuestion
 	});
 
 	connections.push(client);
@@ -68,6 +70,12 @@ io.on('connection', (client) => {
 		client.emit('joined', speaker);
 		io.emit('start', {title: title, speaker: speaker});
 		console.log('Presentation Started: "%s" by %s', title, speaker.name);
+	});
+
+	client.on('ask', (question) => {
+		currentQuestion = question;
+		io.emit('ask', currentQuestion);
+		console.log('Question asked "%s"', question.q);
 	})
 
 	client.on('disconnect', () => {
@@ -80,7 +88,8 @@ io.on('connection', (client) => {
 			console.log('%s has left. %s is over.', speaker.name, title);
 			speaker = {};
 			title = 'Untitled Presentation';
-			io.emit('end', { title: title, speaker: speaker });
+			currentQuestion = false;
+			io.emit('end', { title: title, speaker: speaker, currentQuestion: currentQuestion });
 		}
 
 		connections.splice(connections.indexOf(client), 1);

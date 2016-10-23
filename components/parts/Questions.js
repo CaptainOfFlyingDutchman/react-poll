@@ -1,6 +1,15 @@
 import React, { Component, PropTypes } from 'react';
 
 class Questions extends Component {
+	constructor() {
+		super();
+		this.ask = this.ask.bind(this);
+	}
+
+	ask(question) {
+		this.props.emit('ask', question);
+	}
+
 	render() {
 		return(
 			<div id="questions" className="row">
@@ -9,7 +18,7 @@ class Questions extends Component {
 						return (
 							<div key={i}
 								className="col-xs-12 col-sm-6 col-md-3">
-								<span>{question.q}</span>
+								<span onClick={() => this.ask(question)}>{question.q}</span>
 							</div>
 							);
 					})}
@@ -19,7 +28,8 @@ class Questions extends Component {
 }
 
 Questions.propTypes = {
-	questions: PropTypes.array
+	questions: PropTypes.array,
+	emit: PropTypes.func
 };
 
 export default Questions;

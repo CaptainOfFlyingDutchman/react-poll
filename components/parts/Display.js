@@ -11,7 +11,8 @@ class Display extends Component {
 Display.propTypes = {
 	if: PropTypes.oneOfType([
 			PropTypes.bool.isRequired,
-			PropTypes.string.isRequired
+			PropTypes.string.isRequired,
+			PropTypes.object.isRequired
 		])
 };
 

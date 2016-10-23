@@ -9,9 +9,15 @@ class Audience extends Component {
 			<div>
 				<Display if={this.props.status === 'connected'}>
 					<Display if={this.props.member.name}>
-						<h2>Welcome {this.props.member.name}</h2>
-						<p>{this.props.audience.length} audience member connnected.</p>
-						<p>Questions will appear here.</p>
+						<Display if={!this.props.currentQuestion}>
+							<h2>Welcome {this.props.member.name}</h2>
+							<p>{this.props.audience.length} audience member connnected.</p>
+							<p>Questions will appear here.</p>
+						</Display>
+
+						<Display if={this.props.currentQuestion}>
+							<h2>{this.props.currentQuestion.q}</h2>
+						</Display>
 					</Display>
 
 					<Display if={!this.props.member.name}>
@@ -28,7 +34,11 @@ Audience.propTypes = {
 	status: PropTypes.string,
 	emit: PropTypes.func,
 	member: PropTypes.object,
-	audience: PropTypes.array
+	audience: PropTypes.array,
+	currentQuestion: PropTypes.oneOfType([
+			PropTypes.bool.isRequired,
+			PropTypes.object.isRequired
+		])
 };
 
 export default Audience;
