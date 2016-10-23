@@ -59,6 +59,7 @@ export default class App extends Component {
 		});
 
 		this.socket.on('ask', (question) => {
+			sessionStorage.answer = '';
 			this.setState({ currentQuestion: question });
 		});
 

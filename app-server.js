@@ -34,6 +34,12 @@ var title = 'Untitled Presentation';
 var speaker = {};
 var questions = require('./app-questions');
 var currentQuestion = false;
+var results = {
+	a: 0,
+	b: 0,
+	c: 0,
+	d: 0
+};
 
 var io = require('socket.io')(server);
 
@@ -74,9 +80,15 @@ io.on('connection', (client) => {
 
 	client.on('ask', (question) => {
 		currentQuestion = question;
+		results = { a: 0, b: 0, c: 0, d: 0 };
 		io.emit('ask', currentQuestion);
 		console.log('Question asked "%s"', question.q);
-	})
+	});
+
+	client.on('answer', (payload) => {
+		results[payload.choice]++;
+		console.log('Answer: "%s" - %j', payload.choice, results);
+	});
 
 	client.on('disconnect', () => {
 		var memberDisconnected = _collection.find(audience, _util.matches({ id: client.id }));

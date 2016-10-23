@@ -17,7 +17,7 @@ class Audience extends Component {
 						</Display>
 
 						<Display if={this.props.currentQuestion}>
-							<Ask question={this.props.currentQuestion} />
+							<Ask question={this.props.currentQuestion} emit={this.props.emit} />
 						</Display>
 					</Display>
 
