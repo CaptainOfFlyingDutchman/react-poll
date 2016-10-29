@@ -1,13 +1,13 @@
 {
-  "name": "react-chat",
+  "name": "react-poll",
   "version": "1.0.0",
-  "description": "React chat for presentation and polling",
+  "description": "React poll for presentation and polling",
   "main": "index.js",
   "author": "MSK",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/ManvendraSK/react-chat"
+    "url": "https://github.com/ManvendraSK/react-poll"
   },
   "scripts": {
     "prestart": "webpack",
